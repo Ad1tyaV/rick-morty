@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
+import EpisodeResult from "./EpisodeResult";
 
 const EPISODES_LIST_QUERY = gql`
   query {
@@ -45,7 +46,7 @@ function EpisodesList() {
   return (
     <div
       className="episodesList"
-      style={{ display: "flex", justifyContent: "center" }}
+      style={{ display: "flex", justifyContent: "center", flexDirection: "column" }}
     >
       {loading ? (
         loadingElement()
@@ -54,7 +55,9 @@ function EpisodesList() {
           {errorElement()} {clickButton()}
         </>
       ) : data ? (
-        formatData(data)
+        data.episodes.results.map((eachEpisode) => (
+          <EpisodeResult eachEpisode = {eachEpisode}/>
+        ))
       ) : (
         <>{clickButton()}</>
       )}
